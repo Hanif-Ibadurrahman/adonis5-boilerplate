@@ -6,7 +6,7 @@
  */
 
 import type { AuthConfig } from '@ioc:Adonis/Addons/Auth'
-import Env from "@ioc:Adonis/Core/Env";
+import Env from '@ioc:Adonis/Core/Env'
 
 /*
 |--------------------------------------------------------------------------
@@ -91,7 +91,7 @@ const authConfig: AuthConfig = {
         | of the mentioned columns to find their user record.
         |
         */
-        uids: ['email'],
+        uids: ['username'],
 
         /*
         |--------------------------------------------------------------------------
@@ -108,24 +108,24 @@ const authConfig: AuthConfig = {
       },
     },
     jwt: {
-      driver: "jwt",
+      driver: 'jwt',
       publicKey: Env.get('JWT_PUBLIC_KEY', '').replace(/\\n/g, '\n'),
       privateKey: Env.get('JWT_PRIVATE_KEY', '').replace(/\\n/g, '\n'),
       persistJwt: false,
-      jwtDefaultExpire: '5d',
-      refreshTokenDefaultExpire: '7d',
+      jwtDefaultExpire: Env.get('JWT_ACCESS_TOKEN_EXPIRE'),
+      refreshTokenDefaultExpire: Env.get('JWT_REFRESH_TOKEN_EXPIRE'),
       tokenProvider: {
         type: 'jwt',
         driver: 'redis',
         redisConnection: 'local',
-        foreignKey: 'user_id'
+        foreignKey: 'user_id',
       },
       provider: {
-        driver: "lucid",
-        identifierKey: "id",
+        driver: 'lucid',
+        identifierKey: 'id',
         uids: [],
-        model: () => import('App/Models/User')
-      }
+        model: () => import('App/Models/User'),
+      },
     },
   },
 }
