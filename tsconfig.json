@@ -30,7 +30,10 @@
       "@adonisjs/repl",
       "@japa/preset-adonis/build/adonis-typings",
       "@adonisjs/limiter",
-      "@adonisjs/redis"
+      "@adonisjs/redis",
+      "@adonisjs/auth",
+      "@adonisjs/lucid",
+      "adonis5-jwt"
     ]
   }
 }

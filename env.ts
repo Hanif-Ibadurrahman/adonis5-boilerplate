@@ -22,6 +22,13 @@ export default Env.rules({
   DRIVE_DISK: Env.schema.enum(['local'] as const),
   NODE_ENV: Env.schema.enum(['development', 'production', 'test'] as const),
   CONTAINER_ROLE: Env.schema.enum(['api'] as const),
+
+  MYSQL_HOST: Env.schema.string({ format: 'host' }),
+  MYSQL_PORT: Env.schema.number(),
+  MYSQL_USER: Env.schema.string(),
+  MYSQL_PASSWORD: Env.schema.string.optional(),
+  MYSQL_DB_NAME: Env.schema.string(),
+
   REDIS_CONNECTION: Env.schema.enum(['local'] as const),
   REDIS_HOST: Env.schema.string({ format: 'host' }),
   REDIS_PORT: Env.schema.number(),

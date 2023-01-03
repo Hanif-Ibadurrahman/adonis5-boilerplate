@@ -3,7 +3,8 @@
   "commands": [
     "./commands",
     "@adonisjs/core/build/commands/index.js",
-    "@adonisjs/repl/build/commands"
+    "@adonisjs/repl/build/commands",
+    "@adonisjs/lucid/build/commands"
   ],
   "exceptionHandlerNamespace": "App/Exceptions/Handler",
   "aliases": {
@@ -21,7 +22,10 @@
     "./providers/AppProvider",
     "@adonisjs/core",
     "@adonisjs/limiter",
-    "@adonisjs/redis"
+    "@adonisjs/redis",
+    "@adonisjs/auth",
+    "@adonisjs/lucid",
+    "adonis5-jwt"
   ],
   "aceProviders": [
     "@adonisjs/repl"
