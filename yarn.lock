@@ -1012,6 +1012,11 @@ acorn@^8.0.5, acorn@^8.8.0:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.8.1.tgz#0a3f9cbecc4ec3bea6f0a80b66ae8dd2da250b73"
   integrity sha512-7zFpHzhnqYKrkYdUjF1HI1bzd0VygEGX8lFk4k5zVMqHEoES+P+7TKI+EvLO9WVMJ8eekdO0aDEK044xTXwPPA==
 
+adonis-lucid-soft-deletes@^1.4.3:
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/adonis-lucid-soft-deletes/-/adonis-lucid-soft-deletes-1.4.3.tgz#9d333312df07c18c70f117d82e4e6bf26b9c690f"
+  integrity sha512-q+Qdf3PMM4EbaNUPHCAcH6GDE7jcI6ZiX0MEIU4Uec7z6h313US3fXWn/lBYCjFS31rAGP8F5JAgnaytGVQy+g==
+
 adonis-preset-ts@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/adonis-preset-ts/-/adonis-preset-ts-2.1.0.tgz#3fccdee1c82c574114dc089d8c76dddf5a223054"
