@@ -33,4 +33,9 @@ export default Env.rules({
   REDIS_HOST: Env.schema.string({ format: 'host' }),
   REDIS_PORT: Env.schema.number(),
   REDIS_PASSWORD: Env.schema.string.optional(),
+
+  JWT_PUBLIC_KEY: Env.schema.string(),
+  JWT_PRIVATE_KEY: Env.schema.string(),
+  JWT_ACCESS_TOKEN_EXPIRE: Env.schema.string(),
+  JWT_REFRESH_TOKEN_EXPIRE: Env.schema.string(),
 })
