@@ -11,10 +11,16 @@ export default class extends BaseSchema {
       table.string('password', 180).notNullable()
       table.string('remember_me_token').nullable()
       table.dateTime('last_login').nullable()
+      table.boolean('is_staff').defaultTo(false)
 
       table.timestamp('created_at', { useTz: true }).notNullable()
       table.timestamp('updated_at', { useTz: true }).notNullable()
       table.timestamp('deleted_at', { useTz: true }).nullable()
+    })
+
+    this.schema.alterTable(this.tableName, (table) => {
+      table.integer('created_by').unsigned().references('users.id').nullable()
+      table.integer('updated_by').unsigned().references('users.id').nullable()
     })
   }
 
