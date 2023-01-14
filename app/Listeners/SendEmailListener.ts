@@ -8,7 +8,7 @@ export default class SendEmailListener {
     try {
       await Mail.use('smtp').sendLater((message) => {
         message
-          .from(Env.get('MAILGUN_API_KEY'))
+          .from(Env.get('EMAIL_SENDER'))
           .to(staff.email)
           .subject('Successfully registered as a new staff').html(`
                 <h2 style="color:green;">Successfully registered as a new staff</h2>
@@ -26,7 +26,7 @@ export default class SendEmailListener {
     try {
       await Mail.use('smtp').sendLater((message) => {
         message
-          .from(Env.get('MAILGUN_API_KEY'))
+          .from(Env.get('EMAIL_SENDER'))
           .to(member.email)
           .subject('Successfully registered as a new member').html(`
                 <h2 style="color:green;">Successfully registered as a new member</h2>
