@@ -2,24 +2,23 @@ import { DateTime } from 'luxon'
 import { v4 } from 'uuid'
 import { compose } from '@ioc:Adonis/Core/Helpers'
 import { SoftDeletes } from '@ioc:Adonis/Addons/LucidSoftDeletes'
-import Hash from '@ioc:Adonis/Core/Hash'
 import {
   column,
-  beforeSave,
   BaseModel,
   beforeCreate,
-  belongsTo,
   BelongsTo,
+  belongsTo,
   manyToMany,
   ManyToMany,
-  hasOne,
-  HasOne,
+  scope,
+  ModelQueryBuilderContract,
 } from '@ioc:Adonis/Lucid/Orm'
-import Role from './Role'
-import Member from './Member'
-import Staff from './Staff'
-export default class User extends compose(BaseModel, SoftDeletes) {
-  public static table = 'users'
+import User from './User'
+import Permission from './Permission'
+import { isUndefined } from 'lodash'
+
+export default class Role extends compose(BaseModel, SoftDeletes) {
+  public static table = 'roles'
 
   @column({ isPrimary: true, serializeAs: null })
   public id: number
@@ -28,19 +27,10 @@ export default class User extends compose(BaseModel, SoftDeletes) {
   public uuid: string
 
   @column()
-  public username: string
-
-  @column({ serializeAs: null })
-  public password: string
+  public name: string
 
   @column()
-  public rememberMeToken: string | null
-
-  @column.dateTime()
-  public lastLogin: DateTime
-
-  @column()
-  public isStaff: boolean
+  public displayName: string
 
   @column({ serializeAs: null })
   public createdBy: number
@@ -71,36 +61,35 @@ export default class User extends compose(BaseModel, SoftDeletes) {
   })
   public updatedByUser: BelongsTo<typeof User>
 
-  @hasOne(() => Member, {
-    foreignKey: 'userId',
+  @manyToMany(() => Permission, {
     localKey: 'id',
-  })
-  public member: HasOne<typeof Member>
-
-  @hasOne(() => Staff, {
-    foreignKey: 'userId',
-    localKey: 'id',
-  })
-  public staff: HasOne<typeof Staff>
-
-  @manyToMany(() => Role, {
-    localKey: 'id',
-    pivotForeignKey: 'user_id',
+    pivotForeignKey: 'role_id',
     relatedKey: 'id',
-    pivotRelatedForeignKey: 'role_id',
+    pivotRelatedForeignKey: 'permission_id',
+    pivotTable: 'role_has_permissions',
+  })
+  public permissions: ManyToMany<typeof Permission>
+
+  @manyToMany(() => User, {
+    localKey: 'id',
+    pivotForeignKey: 'role_id',
+    relatedKey: 'id',
+    pivotRelatedForeignKey: 'user_id',
     pivotTable: 'user_has_roles',
   })
-  public roles: ManyToMany<typeof Role>
+  public users: ManyToMany<typeof User>
 
   @beforeCreate()
-  public static generateUuid(user: User) {
-    user.uuid = v4()
+  public static generateUuid(role: Role) {
+    role.uuid = v4()
   }
 
-  @beforeSave()
-  public static async hashPassword(user: User) {
-    if (user.$dirty.password) {
-      user.password = await Hash.make(user.password)
+  public static findRoleByUuids = scope(
+    (query: ModelQueryBuilderContract<typeof Role, Role>, roleUuids?: string) => {
+      if (!isUndefined(roleUuids)) {
+        const uuids = roleUuids.split(',')
+        query.whereIn('uuid', uuids)
+      }
     }
-  }
+  )
 }

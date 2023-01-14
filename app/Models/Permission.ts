@@ -2,24 +2,20 @@ import { DateTime } from 'luxon'
 import { v4 } from 'uuid'
 import { compose } from '@ioc:Adonis/Core/Helpers'
 import { SoftDeletes } from '@ioc:Adonis/Addons/LucidSoftDeletes'
-import Hash from '@ioc:Adonis/Core/Hash'
 import {
   column,
-  beforeSave,
   BaseModel,
   beforeCreate,
-  belongsTo,
   BelongsTo,
+  belongsTo,
   manyToMany,
   ManyToMany,
-  hasOne,
-  HasOne,
 } from '@ioc:Adonis/Lucid/Orm'
+import User from './User'
 import Role from './Role'
-import Member from './Member'
-import Staff from './Staff'
-export default class User extends compose(BaseModel, SoftDeletes) {
-  public static table = 'users'
+
+export default class Permission extends compose(BaseModel, SoftDeletes) {
+  public static table = 'permissions'
 
   @column({ isPrimary: true, serializeAs: null })
   public id: number
@@ -28,19 +24,10 @@ export default class User extends compose(BaseModel, SoftDeletes) {
   public uuid: string
 
   @column()
-  public username: string
-
-  @column({ serializeAs: null })
-  public password: string
+  public name: string
 
   @column()
-  public rememberMeToken: string | null
-
-  @column.dateTime()
-  public lastLogin: DateTime
-
-  @column()
-  public isStaff: boolean
+  public displayName: string
 
   @column({ serializeAs: null })
   public createdBy: number
@@ -71,36 +58,17 @@ export default class User extends compose(BaseModel, SoftDeletes) {
   })
   public updatedByUser: BelongsTo<typeof User>
 
-  @hasOne(() => Member, {
-    foreignKey: 'userId',
-    localKey: 'id',
-  })
-  public member: HasOne<typeof Member>
-
-  @hasOne(() => Staff, {
-    foreignKey: 'userId',
-    localKey: 'id',
-  })
-  public staff: HasOne<typeof Staff>
-
   @manyToMany(() => Role, {
     localKey: 'id',
-    pivotForeignKey: 'user_id',
+    pivotForeignKey: 'permission_id',
     relatedKey: 'id',
     pivotRelatedForeignKey: 'role_id',
-    pivotTable: 'user_has_roles',
+    pivotTable: 'role_has_permissions',
   })
   public roles: ManyToMany<typeof Role>
 
   @beforeCreate()
-  public static generateUuid(user: User) {
-    user.uuid = v4()
-  }
-
-  @beforeSave()
-  public static async hashPassword(user: User) {
-    if (user.$dirty.password) {
-      user.password = await Hash.make(user.password)
-    }
+  public static generateUuid(permission: Permission) {
+    permission.uuid = v4()
   }
 }
