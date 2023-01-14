@@ -38,4 +38,10 @@ export default Env.rules({
   JWT_PRIVATE_KEY: Env.schema.string(),
   JWT_ACCESS_TOKEN_EXPIRE: Env.schema.string(),
   JWT_REFRESH_TOKEN_EXPIRE: Env.schema.string(),
+
+  EMAIL_SENDER: Env.schema.string(),
+  SMTP_HOST: Env.schema.string({ format: 'host' }),
+  SMTP_PORT: Env.schema.number(),
+  SMTP_USERNAME: Env.schema.string(),
+  SMTP_PASSWORD: Env.schema.string(),
 })
