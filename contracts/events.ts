@@ -5,6 +5,9 @@
  * file.
  */
 
+import Member from 'App/Models/Member'
+import Staff from 'App/Models/Staff'
+
 declare module '@ioc:Adonis/Core/Event' {
   /*
   |--------------------------------------------------------------------------
@@ -26,6 +29,7 @@ declare module '@ioc:Adonis/Core/Event' {
   |
   */
   interface EventsList {
-    //
+    'send-email:new-staff': { staff: Staff }
+    'send-email:new-member': { member: Member }
   }
 }
